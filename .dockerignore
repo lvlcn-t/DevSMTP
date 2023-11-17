@@ -1,0 +1,33 @@
+*.log
+.env
+config.dev.json
+config.json
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI
+.codeclimate.yml
+.travis.yml
+.taskcluster.yml
+.gitlab-ci.yml
+.github/
+
+# Docker
+docker-compose.yml
+Dockerfile
+.docker
+.dockerignore
+
+# Distribution / packaging
+env/
+build/
+
+# Vim swap files
+**/*.swp
+
+# IDE directories
+.vscode/
+.vscode-insiders/
+.idea/
