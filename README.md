@@ -1,8 +1,8 @@
-# DevSMTP 📧
+# DevSMTP
 
 DevSMTP is a high-performance SMTP server designed for developers. 🚀
 
-![DevSMTP Logo](link-to-your-logo.png)
+![DevSMTP Logo](/public/logo-wide.png)
 
 ## Overview
 
@@ -12,7 +12,7 @@ DevSMTP provides a reliable and efficient solution for developers who need a SMT
 
 ✉️ **Mock Email Server**: Simulate sending and receiving emails without actually sending them.
 
-🌐 **Web Interfacee**: Manage your DevSMTP server effortlessly through a modern and intuitive web interface powered by htmx, templ, and Gin.
+🌐 **Web Interface**: Manage your DevSMTP server effortlessly through a modern and intuitive web interface powered by htmx, templ, and Gin.
 
 📦 **Docker-Ready**: Easily pull and run the DevSMTP Docker image for seamless integration into your development environment.
 
