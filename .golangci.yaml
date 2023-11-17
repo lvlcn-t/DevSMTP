@@ -1,0 +1,18 @@
+run:
+  skip-files:
+    - ".*_test.go"
+    - ".*.pb.go"
+linters:
+  enable:
+    - staticcheck
+    - errcheck
+    - govet
+    - ineffassign
+    - typecheck
+    - unused
+    - gocritic
+    - gofumpt
+    - goimports
+    - gosec
+output:
+  print-linter-name: true
