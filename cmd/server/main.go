@@ -48,4 +48,38 @@ func main() {
 	log := logger.NewNamedLogger("DevSMTP", slog.NewJSONHandler(os.Stderr, opt))
 	ctx := logger.IntoContext(context.Background(), log)
 
+	smtpSrv, err := smtp.NewSMTPServer(cfg)
+	if err != nil {
+		log.FatalContext(ctx, "Failed to create the smtp server", "error", err)
+	}
+	webSrv, err := web.NewWebServer(cfg)
+	if err != nil {
+		log.FatalContext(ctx, "Failed to create the web server", "error", err)
+	}
+
+	errors := make(chan error, 2)
+	go func() {
+		if err := smtpSrv.Run(); err != nil {
+			log.ErrorContext(ctx, "Failed to start SMTP server", "error", err)
+			errors <- err
+		}
+	}()
+
+	go func() {
+		if err := webSrv.Run(); err != nil {
+			log.ErrorContext(ctx, "Failed to start Web server", "error", err)
+			errors <- err
+		}
+	}()
+
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	select {
+	case err := <-errors:
+		log.ErrorContext(ctx, "Error received from server", "error", err)
+	case <-sigs:
+		ctx.Done()
+		log.InfoContext(ctx, "Shutdown signal received")
+	}
 }
