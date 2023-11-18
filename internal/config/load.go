@@ -9,21 +9,21 @@ import (
 )
 
 func LoadCmdFlags(cfg *Config) {
-	flag.StringVar(&cfg.IP, "ip", "0.0.0.0", "IP address for binding")
-	flag.BoolVar(&cfg.Verbosity, "v", false, "Verbosity")
+	flag.StringVar(&cfg.IP, "ip", cfg.IP, "IP address for binding")
+	flag.BoolVar(&cfg.Verbosity, "v", cfg.Verbosity, "Verbosity")
 
-	flag.IntVar(&cfg.SMTPConfig.Port, "s", 1025, "SMTP port")
-	flag.IntVar(&cfg.SMTPConfig.Port, "smtp", 1025, "SMTP port")
-	flag.StringVar(&cfg.SMTPConfig.User, "smtp-user", "", "SMTP user")
-	flag.StringVar(&cfg.SMTPConfig.Password, "smtp-password", "", "SMTP password")
-	flag.StringVar(&cfg.SMTPConfig.MailDirectory, "mail-directory", "", "Path for persisting mails")
-	flag.BoolVar(&cfg.SMTPConfig.LogMailContents, "log-mail-contents", false, "Log mail contents")
+	flag.IntVar(&cfg.SMTPConfig.Port, "s", cfg.SMTPConfig.Port, "SMTP port")
+	flag.IntVar(&cfg.SMTPConfig.Port, "smtp", cfg.SMTPConfig.Port, "SMTP port")
+	flag.StringVar(&cfg.SMTPConfig.User, "smtp-user", cfg.SMTPConfig.User, "SMTP user")
+	flag.StringVar(&cfg.SMTPConfig.Password, "smtp-password", cfg.SMTPConfig.Password, "SMTP password")
+	flag.StringVar(&cfg.SMTPConfig.MailDirectory, "mail-directory", cfg.SMTPConfig.MailDirectory, "Path for persisting mails")
+	flag.BoolVar(&cfg.SMTPConfig.LogMailContents, "log-mail-contents", cfg.SMTPConfig.LogMailContents, "Log mail contents")
 
-	flag.IntVar(&cfg.WebConfig.Port, "w", 1080, "Web port")
-	flag.IntVar(&cfg.WebConfig.Port, "web", 1080, "Web port")
-	flag.StringVar(&cfg.WebConfig.User, "web-user", "", "Web user")
-	flag.StringVar(&cfg.WebConfig.Password, "web-password", "", "Web password")
-	flag.BoolVar(&cfg.WebConfig.Disable, "disable-web", false, "Disable web interface")
+	flag.IntVar(&cfg.WebConfig.Port, "w", cfg.WebConfig.Port, "Web port")
+	flag.IntVar(&cfg.WebConfig.Port, "web", cfg.WebConfig.Port, "Web port")
+	flag.StringVar(&cfg.WebConfig.User, "web-user", cfg.WebConfig.User, "Web user")
+	flag.StringVar(&cfg.WebConfig.Password, "web-password", cfg.WebConfig.Password, "Web password")
+	flag.BoolVar(&cfg.WebConfig.Disable, "disable-web", cfg.WebConfig.Disable, "Disable web interface")
 
 	flag.Parse()
 }
