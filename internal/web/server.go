@@ -1,6 +1,7 @@
 package web
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -10,7 +11,7 @@ import (
 )
 
 type Server interface {
-	Run() error
+	Run(ctx context.Context) error
 }
 
 type server struct {
@@ -35,6 +36,8 @@ func NewWebServer(cfg *config.Config) (Server, error) {
 	}, nil
 }
 
-func (s *server) Run() error {
+func (s *server) Run(ctx context.Context) error {
+	_, cancel := context.WithCancel(ctx)
+	defer cancel()
 	return s.r.Run(fmt.Sprintf("%s:%d", s.cfg.IP, s.cfg.WebConfig.Port))
 }

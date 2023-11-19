@@ -32,6 +32,8 @@ func NewSMTPServer(cfg *config.Config) (Server, error) {
 }
 
 func (s *server) Run(ctx context.Context) error {
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 	s.be.SetContext(ctx)
 	return s.srv.ListenAndServe()
 }

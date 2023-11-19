@@ -66,7 +66,7 @@ func main() {
 	}()
 
 	go func() {
-		if err := webSrv.Run(); err != nil {
+		if err := webSrv.Run(ctx); err != nil {
 			log.ErrorContext(ctx, "Failed to start Web server", "error", err)
 			errors <- err
 		}
