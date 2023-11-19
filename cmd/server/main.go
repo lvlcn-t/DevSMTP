@@ -59,7 +59,7 @@ func main() {
 
 	errors := make(chan error, 2)
 	go func() {
-		if err := smtpSrv.Run(); err != nil {
+		if err := smtpSrv.Run(ctx); err != nil {
 			log.ErrorContext(ctx, "Failed to start SMTP server", "error", err)
 			errors <- err
 		}

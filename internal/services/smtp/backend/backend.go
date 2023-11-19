@@ -1,60 +1,36 @@
 package backend
 
 import (
-	"errors"
-	"io"
+	"context"
+	"sync"
 
 	"github.com/emersion/go-smtp"
 	"github.com/lvlcn-t/DevSMTP/internal/config"
+	"github.com/lvlcn-t/DevSMTP/internal/services/database"
 )
 
+type Backend interface {
+	smtp.Backend
+	SetContext(ctx context.Context)
+}
+
 type backend struct {
-	*config.SMTP
+	cfg *config.SMTP
+	ctx context.Context
+	db  database.Database
+	mu  sync.Mutex
 }
 
-func NewBackend(cfg *config.Config) backend {
-	return backend{
-		cfg.SMTPConfig,
+func NewBackend(cfg *config.Config) Backend {
+	return &backend{
+		cfg: cfg.SMTPConfig,
+		db:  database.NewDatabase(),
+		mu:  sync.Mutex{},
 	}
 }
 
-func (b backend) NewSession(conn *smtp.Conn) (smtp.Session, error) {
-	return &Session{}, nil
-}
-
-func (b backend) Login(conn *smtp.Conn, username, password string) (smtp.Session, error) {
-	if username != b.User || password != b.Password {
-		return nil, errors.New("invalid credentials")
-	}
-	return &Session{}, nil
-}
-
-func (b backend) AnonymousLogin(conn *smtp.Conn) (smtp.Session, error) {
-	// TODO: implement allowed anonymous login if credentials aren't configured
-	return nil, smtp.ErrAuthRequired
-}
-
-type Session struct{}
-
-func (s *Session) AuthPlain(username, password string) error {
-	return nil
-}
-
-func (s *Session) Mail(from string, opts *smtp.MailOptions) error {
-	return nil
-}
-
-func (s *Session) Rcpt(to string, opts *smtp.RcptOptions) error {
-	return nil
-}
-
-func (s *Session) Data(r io.Reader) error {
-	// TODO: Implement the logic to handle the received data
-	return nil
-}
-
-func (s *Session) Reset() {}
-
-func (s *Session) Logout() error {
-	return nil
+func (b *backend) SetContext(ctx context.Context) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.ctx = ctx
 }
